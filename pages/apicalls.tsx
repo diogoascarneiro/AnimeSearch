@@ -1,11 +1,3 @@
-/*
-First note - in Next.js pages have to be exported at the end of the file
- rather than directly when their function is created
- */
-
-import React, { useState, useEffect } from 'react'
-import { setEnvironmentData } from 'worker_threads';
-
  /*Sample GraphQL anilist query to work with
  
  var query = `
@@ -66,14 +58,6 @@ var query = `
 `;
 
 
-
-
-
-
-const Home = () => {
- 
-const [fetchedData, setFetchedData] = useState(null);
-
 // Define the config we'll need for our Api request
 var url = 'https://graphql.anilist.co',
     options = {
@@ -96,7 +80,7 @@ function handleResponse(response) {
 }
 
 function handleData(data) {
-  setFetchedData(data.data.Page.media);
+    console.log(data);
 }
 
 function handleError(error) {
@@ -104,26 +88,7 @@ function handleError(error) {
     console.error(error);
 }
 
-useEffect(() => {
+
 fetch(url, options).then(handleResponse)
 .then(handleData)
 .catch(handleError);
-}, []);
-
-useEffect(() => {
-  console.log(fetchedData)
-}, [fetchedData])
- 
-if (!fetchedData) {
-  return <div>Loading...</div>
-} 
-
-  return (
-    <div>
-     {fetchedData.map((item) => <p>{item.title.english}</p>)}
-    </div>
-  )
-}
-
-
-export default Home
