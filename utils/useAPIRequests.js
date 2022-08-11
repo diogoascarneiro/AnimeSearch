@@ -24,6 +24,12 @@ const titlesQuery = gql`{
           month
           day
         }
+        coverImage {
+          extraLarge
+        large
+        medium
+        color
+        }
       }
     }
   }`;
@@ -46,13 +52,19 @@ const titlesQuery = gql`{
       averageScore
       popularity
       countryOfOrigin
+      coverImage {
+        extraLarge
+        large
+        medium
+      color
+      }
     }
   }
 `;
 
 
 
-/* Custom hooks here */
+/* Custom fetching hooks here */
 
 //Note: the query key needs to be in an array otherwise it won't work
 

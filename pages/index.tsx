@@ -3,9 +3,9 @@ First note - in Next.js pages have to be exported at the end of the file
  rather than directly when their function is created
  */
 
-import {useGetTitles, useGetSingleAnime} from "../utils/useAPIRequests";
-import Link
- from "next/link";
+import {useGetTitles} from "../utils/useAPIRequests";
+import Link from "next/link";
+
 const Home = () => {
   
 const {data, error, isLoading, isSuccess, status} = useGetTitles();
@@ -22,7 +22,13 @@ if (status === "error") {
 
   return (
     <div>
-  {data.Page.media.map((item) => <Link href={`${item.id}`}><div>{item.title.english}</div></Link>)}
+  {data.Page.media.map((item) => (
+ <div>
+   <img src={item.coverImage.extraLarge}/>
+   <Link href={`${item.id}`}><u>{item.title.english}</u></Link>
+   </div>
+  )
+  )}
     </div>
   )
 }
