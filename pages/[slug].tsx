@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {useGetSingleAnime} from "../utils/useAPIRequests";
-
+import styles from "./[slug].module.scss"
 
 
 
@@ -22,7 +22,7 @@ return <div>Error...: {console.log(error)}</div>
   return (
     <div>
       <div><Link href="/">Return to homepage</Link></div>
-      <div><img src={data.Media.coverImage.extraLarge}></img></div>
+      <div><img className={styles.coverImage} src={data.Media.coverImage.extraLarge}></img></div>
     <div>
     <p>English title: {data.Media.title.english}</p>
     <p>Japanese title: {data.Media.title.native}</p>
