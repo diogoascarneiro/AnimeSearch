@@ -28,6 +28,30 @@ const titlesQuery = gql`{
     }
   }`;
 
+  const singleAnimeQuery = gql`
+  query ($id: Int) {
+    Media(id:$id) {
+      id
+      title {
+          english
+          native
+        }
+      type
+      episodes
+      duration
+      genres
+      tags {
+        id
+      }
+      averageScore
+      popularity
+      countryOfOrigin
+    }
+  }
+`;
+
+
+
 /* Custom hooks here */
 
 //Note: the query key needs to be in an array otherwise it won't work
@@ -37,4 +61,11 @@ export function useGetTitles() {
     const titlesData = await client.request(titlesQuery);
     return titlesData;
   })
+}
+
+export function useGetSingleAnime(animeId) {
+    return useQuery(["singleAnimeData", animeId], async () => {
+        const singleAnimeData = await client.request(singleAnimeQuery, {id: animeId});
+        return singleAnimeData;
+    })
 }
