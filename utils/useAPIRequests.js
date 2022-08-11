@@ -1,0 +1,40 @@
+import { useQuery } from '@tanstack/react-query';
+import { request, gql, GraphQLClient} from "graphql-request"
+
+const ANILIST_QUERY_URL = 'https://graphql.anilist.co';
+
+const client = new GraphQLClient(ANILIST_QUERY_URL, {headers: {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+}} );
+
+/* Queries here */
+const titlesQuery = gql`{
+    Page(perPage: 50) {
+      media(isAdult: false) {
+        id
+        title {
+          romaji
+          english
+          native
+          userPreferred
+        }
+        startDate {
+          year
+          month
+          day
+        }
+      }
+    }
+  }`;
+
+/* Custom hooks here */
+
+//Note: the query key needs to be in an array otherwise it won't work
+
+export function useGetTitles() {
+  return useQuery(["get-titles"], async () => {
+    const titlesData = await client.request(titlesQuery);
+    return titlesData;
+  })
+}
