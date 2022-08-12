@@ -14,7 +14,7 @@ import { request, gql, GraphQLClient } from "graphql-request";
 
 const Home = ({ dehydratedState, didSomething }) => {
   const { data, error, isLoading, isSuccess, status } = useGetTitles();
-
+console.log(getTitles())
   // useEffect(() => {console.log(data, status, error); console.log("ping")}, [data, status]);
 
   if (status === "loading") {
@@ -29,9 +29,7 @@ const Home = ({ dehydratedState, didSomething }) => {
 
   return (
     <div>
-      {() => console.log(getTitles())}
-
-      <div className={styles.mainContainer}>
+       <div className={styles.mainContainer}>
         {data.Page.media.map((item) => (
           <Link key={`${item.id}_${item.title.english}`} href={`/animes/${item.id}`}>
             <div className={styles.animeContainer}>
@@ -46,41 +44,39 @@ const Home = ({ dehydratedState, didSomething }) => {
 };
 
 async function getTitles() {
-
-  const data = await request({
-     url: "https://graphql.anilist.co",
-     document: gql`{
-                Page(perPage: 50) {
-                  media(isAdult: false) {
-                    id
-                    title {
-                      romaji
-                      english
-                      native
-                      userPreferred
-                    }
-                    startDate {
-                      year
-                      month
-                      day
-                    }
-                    coverImage {
-                      extraLarge
-                    large
-                    medium
-                    color
-                    }
-                  }
-                }`,
-     variables: "",
-     requestHeaders: {
-               "Content-Type": "application/json",
-               Accept: "application/json",
-             },
-   })
-
- return data
- }
+     const ANILIST_QUERY_URL = "https://graphql.anilist.co";
+      const client = new GraphQLClient(ANILIST_QUERY_URL, {
+       headers: {
+         "Content-Type": "application/json",
+         Accept: "application/json",
+       },
+     });
+      const titlesData = await client.request(gql`{
+        Page(perPage: 50) {
+          media(isAdult: false) {
+            id
+            title {
+              romaji
+              english
+              native
+              userPreferred
+            }
+            startDate {
+              year
+              month
+              day
+            }
+            coverImage {
+              extraLarge
+            large
+            medium
+            color
+            }
+          }
+        }
+      }`);
+     return titlesData;
+   }
 
 export async function getStaticProps() {
 
@@ -97,57 +93,3 @@ export async function getStaticProps() {
 }
 
 export default Home;
-
-
-// export async function getStaticProps() {
-
-//   async function getTitles() {
-
-//     console.log("ping just ran")
-//     const ANILIST_QUERY_URL = "https://graphql.anilist.co";
-  
-//     const client = new GraphQLClient(ANILIST_QUERY_URL, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//       },
-//     });
-  
-//     const titlesData = await client.request(gql`{
-//         Page(perPage: 50) {
-//           media(isAdult: false) {
-//             id
-//             title {
-//               romaji
-//               english
-//               native
-//               userPreferred
-//             }
-//             startDate {
-//               year
-//               month
-//               day
-//             }
-//             coverImage {
-//               extraLarge
-//             large
-//             medium
-//             color
-//             }
-//           }
-//         }`);
-//     console.log(titlesData);
-//     return titlesData;
-//   }
-  
-//   const queryClient = new QueryClient();
-
-//   await queryClient.prefetchQuery(["get-titles"], getTitles);
-
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//       didSomething: true,
-//     },
-//   };
-// }
