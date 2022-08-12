@@ -1,0 +1,20 @@
+.mainContainer {
+    display:flex;
+    padding:5%;
+    gap:4%
+}
+
+.imageContainer {
+ }
+
+.returnContainer {
+    padding:2%;
+
+    a {
+        color:teal;
+        background-color:white;
+        padding:1%;
+        border:1px solid teal;
+        border-radius:4%
+    }
+}

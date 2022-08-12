@@ -1,0 +1,18 @@
+.mainContainer {
+    padding:5%;
+    display:flex;
+    flex-wrap:wrap;
+    gap:2%
+}
+
+.animeContainer {
+    max-width:20%;
+    height:auto;
+    position:relative;
+    margin-bottom:5%;
+    
+    p {
+        text-align:center;
+        width:100%;
+    }
+}
