@@ -44,9 +44,12 @@ const Home = () => {
  const {status, data} = useQuery(["searchAnimes", searchBar], () => searchAnimes(searchBar));
  
  useEffect(()=> {
-  console.log(data)
   if (data) {
-    setResultsList(data.Page.media)
+     let cleanResults = data.Page.media.filter((item) => item.title.english);
+     console.log(cleanResults);
+     setResultsList(cleanResults)
+    // console.log(data.Page.media)
+    // setResultsList(data.Page.media)
   };
  }, [data])
 
@@ -68,7 +71,7 @@ const Home = () => {
 <input type="text" id="homeSearch" placeholder="Search anime database" value={searchBar} onChange={(e)=> {e.preventDefault(); setSearchBar(e.target.value)}}></input>
 <div className={styles.resultsContainer}>
   <ul>
-   {resultsList ? resultsList.map((item) => <li>{item.title.english}</li>) : <li>No results here!</li>}
+   {resultsList ? resultsList.map((item) => <Link href={`/animes/${item.id}`}><li>{item.title.english}</li></Link>) : <li>No results here!</li>}
   </ul>
 </div>
         </form>
